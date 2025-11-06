@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+java "-DLOCAL=1" Main "$@"
