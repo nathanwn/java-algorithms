@@ -99,10 +99,8 @@ public class Main {
 
         void push(int x) {
             if (n == cap) {
-                int[] aNew = new int[cap << 1];
-                System.arraycopy(a, 0, aNew, 0, cap);
                 cap <<= 1;
-                a = aNew;
+                a = Arrays.copyOf(a, cap);
             }
             a[n] = x;
             n++;
