@@ -43,6 +43,33 @@ public class Main {
             return buf[curChar++];
         }
 
+        public int peek() {
+            if (numChars == -1) {
+                return -1;
+            }
+            if (curChar >= numChars) {
+                curChar = 0;
+                try {
+                    numChars = stream.read(buf);
+                } catch (IOException e) {
+                    return -1;
+                }
+                if (numChars <= 0) {
+                    return -1;
+                }
+            }
+            return buf[curChar];
+        }
+
+        public boolean hasNext() {
+            int c = peek();
+            while (c != -1 && isWhitespace(c)) {
+                get();
+                c = peek();
+            }
+            return c != -1;
+        }
+
         public String next() {
             int c = get();
             while (isWhitespace(c)) {
@@ -77,6 +104,68 @@ public class Main {
                 res += c - '0';
                 c = get();
             } while (!isWhitespace(c));
+            return res * sgn;
+        }
+
+        public long nextLong() {
+            int c = get();
+            while (isWhitespace(c)) {
+                c = get();
+            }
+            int sgn = 1;
+            if (c == '-') {
+                sgn = -1;
+                c = get();
+            }
+            long res = 0;
+            do {
+                if (c < '0' || c > '9') {
+                    throw new RuntimeException();
+                }
+                res *= 10;
+                res += c - '0';
+                c = get();
+            } while (!isWhitespace(c));
+            return res * sgn;
+        }
+
+        public double readDouble() {
+            int c = get();
+            while (isWhitespace(c)) {
+                c = get();
+            }
+            int sgn = 1;
+            if (c == '-') {
+                sgn = -1;
+                c = get();
+            }
+            double res = 0;
+            while (!isWhitespace(c) && c != '.') {
+                if (c == 'e' || c == 'E') {
+                    return res * Math.pow(10, nextInt());
+                }
+                if (c < '0' || c > '9') {
+                    throw new RuntimeException();
+                }
+                res *= 10;
+                res += c - '0';
+                c = get();
+            }
+            if (c == '.') {
+                c = get();
+                double m = 1;
+                while (!isWhitespace(c)) {
+                    if (c == 'e' || c == 'E') {
+                        return res * Math.pow(10, nextInt());
+                    }
+                    if (c < '0' || c > '9') {
+                        throw new RuntimeException();
+                    }
+                    m /= 10;
+                    res += (c - '0') * m;
+                    c = get();
+                }
+            }
             return res * sgn;
         }
 
