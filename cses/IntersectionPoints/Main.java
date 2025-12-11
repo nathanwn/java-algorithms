@@ -27,8 +27,7 @@ public class Main {
                 ys[(i << 1) + 1] = segments[i][3];
             }
 
-            sort(ys);
-            int numYs = unique(ys);
+            CoordinateCompressor yCompressor = new CoordinateCompressor(ys, random);
 
             for (int i = 0; i < n; i++) {
                 int x1 = segments[i][0];
@@ -36,11 +35,11 @@ public class Main {
                 int x2 = segments[i][2];
                 int y2 = segments[i][3];
                 if (x1 == x2) {  // vertical
-                    int yy1 = search(ys, numYs, y1);
-                    int yy2 = search(ys, numYs, y2);
+                    int yy1 = yCompressor.getIndex(y1);
+                    int yy2 = yCompressor.getIndex(y2);
                     events.add(new Event(x1, yy1, yy2, EventType.VER));
                 } else if (y1 == y2) {  // horizontal
-                    int yy = search(ys, numYs, y1);
+                    int yy = yCompressor.getIndex(y1);
                     events.add(new Event(x1, yy, yy, EventType.HOR_START));
                     events.add(new Event(x2, yy, yy, EventType.HOR_END));
                 } else throw new RuntimeException();
@@ -50,8 +49,8 @@ public class Main {
                 return Integer.compare(e1.x, e2.x);
             });
 
-            /// FenwickTree t = new FenwickTree(numYs);
-            IntervalTree t = new IntervalTree(numYs);
+            /// FenwickTree t = new FenwickTree(yCompressor.length);
+            IntervalTree t = new IntervalTree(yCompressor.length);
 
             long ans = 0;
             for (Event e : events) {
@@ -67,6 +66,22 @@ public class Main {
                 } else throw new RuntimeException();
             }
             out.println(ans);
+        }
+    }
+
+    static class CoordinateCompressor {
+        int length;
+        int[] b;
+
+        CoordinateCompressor(int[] a, Random random) {
+            int n = a.length;
+            b = Arrays.copyOf(a, n);
+            sort(b, random);
+            length = unique(b);
+        }
+
+        int getIndex(int x) {
+            return search(b, length, x);
         }
     }
 
@@ -98,12 +113,12 @@ public class Main {
         return j;
     }
 
-    static void sort(int[] a) {
-        shuffle(random, a);
+    static void sort(int[] a, Random random) {
+        shuffle(a, random);
         Arrays.sort(a);
     }
 
-    static void shuffle(Random random, int[] a) {
+    static void shuffle(int[] a, Random random) {
         // Fisher-Yates shuffle
         for (int i = a.length - 1; i > 0; i--) {
             int j = random.nextInt(i + 1);
