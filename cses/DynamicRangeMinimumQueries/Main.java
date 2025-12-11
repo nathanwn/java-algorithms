@@ -16,7 +16,7 @@ public class Main {
         for (int i = 0; i < n; i++) {
             a[i] = in.nextInt();
         }
-        IntervalTree it = new IntervalTree(a, 0);
+        IntervalTree it = new IntervalTree(a, Long.MAX_VALUE);
         for (int j = 0; j < q; j++) {
             int t = in.nextInt();
             if (t == 1) {
@@ -37,7 +37,7 @@ public class Main {
         long defaultValue;
 
         long merge(long leftVal, long rightVal) {
-            return leftVal + rightVal;
+            return Math.min(leftVal, rightVal);
         }
 
         void updateNode(int node, int val) {
