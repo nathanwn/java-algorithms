@@ -3,3 +3,7 @@
 .project
 .settings
 *.class
+build/
+out/
+output/
+CHelperReport.txt
