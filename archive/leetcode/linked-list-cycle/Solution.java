@@ -11,6 +11,7 @@
 
 class Solution {
     public boolean hasCycle(ListNode head) {
+        // https://cp-algorithms.com/others/tortoise_and_hare.html
         ListNode slow = head;
         ListNode fast = head;
         while (fast != null && fast.next != null) {
