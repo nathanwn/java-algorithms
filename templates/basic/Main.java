@@ -9,10 +9,8 @@ import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class Main {
-    static class Solver {
-        void solve(InputReader in, PrintWriter out) {
+    static void solve(InputReader in, PrintWriter out) {
 
-        }
     }
 
     static class InputReader {
@@ -64,8 +62,7 @@ public class Main {
     public static void main(String[] args) {
         InputReader in = new InputReader(System.in);
         PrintWriter out = new PrintWriter(System.out);
-        Solver solver = new Solver();
-        solver.solve(in, out);
+        solve(in, out);
         out.close();
     }
 }
