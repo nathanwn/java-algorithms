@@ -4,14 +4,39 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class Main {
-    static void solve(InputReader in, PrintWriter out) {
+    static void solve() {
 
     }
+
+    public static void main(String[] args) {
+        if (args.length > 0 && args[0].equals("stress")) {
+            stressTest();
+            return;
+        } else {
+            int t = in.nextInt();
+            while (t-- > 0) {
+                solve();
+            }
+        }
+        out.close();
+    }
+
+    static void stressTest() {
+        out.println("AC!");
+    }
+
+    static InputReader in = new InputReader(System.in);
+    static PrintWriter out = new PrintWriter(System.out);
+    static Random random = new Random(58);
 
     static class InputReader {
         private final BufferedReader reader;
@@ -57,12 +82,5 @@ public class Main {
         public double nextDouble() {
             return Double.parseDouble(next());
         }
-    }
-
-    public static void main(String[] args) {
-        InputReader in = new InputReader(System.in);
-        PrintWriter out = new PrintWriter(System.out);
-        solve(in, out);
-        out.close();
     }
 }
