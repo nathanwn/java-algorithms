@@ -1,18 +1,24 @@
-import java.io.PrintWriter;
-import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class Main {
+    static final boolean MULTITEST = false;
+
     static void solve() {
 
     }
@@ -22,7 +28,10 @@ public class Main {
             stressTest();
             return;
         } else {
-            int t = in.nextInt();
+            int t = 1;
+            if (MULTITEST) {
+                t = in.nextInt();
+            }
             while (t-- > 0) {
                 solve();
             }
