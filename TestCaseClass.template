@@ -15,19 +15,20 @@ public class %TestCaseClass% {
     @TestCase
     public Collection<Test> createTests() {
         List<Test> tests = new ArrayList<>();
+        Random random = new Random(58);
         for (int tid = 0; tid < 10; tid++) {
             StringWriter input = new StringWriter();
             PrintWriter in = new PrintWriter(input);
             StringWriter output = new StringWriter();
             PrintWriter out = new PrintWriter(output);
-            genTest(in, out);
+            genTest(random, in, out);
             // tests.add(new Test(input.toString(), output.toString()));
             // tests.add(new Test(input.toString()));
         }
         return tests;
     }
 
-    void genTest(PrintWriter in, PrintWriter out) {
+    void genTest(Random random, PrintWriter in, PrintWriter out) {
         int n = random.nextInt(1, 10);
         in.println(n);
     }

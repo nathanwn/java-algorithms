@@ -1,41 +1,26 @@
-package io.github.nathanwn.structures;
+package io.github.nathanwn.structure;
 
 import java.util.Arrays;
 
-public abstract class AbstractLazyIntervalTree {
+public abstract class AbstractSimpleIntervalTree {
     int n;
-    public long[] t;
-    public long[] z;
-    boolean[] lazy;
+    long[] t;
     long defaultValue;
 
     public abstract long merge(long leftVal, long rightVal);
 
-    public abstract void updateNode(int node, long val);
+    public abstract void updateNode(int node, int val);
 
-    void pushDown(int node) {
-        if (lazy[node]) {
-            updateNode(left(node), z[node]);
-            updateNode(right(node), z[node]);
-            z[node] = defaultValue;
-            lazy[node] = false;
-            lazy[left(node)] = true;
-            lazy[right(node)] = true;
-        }
-    }
-
-    public AbstractLazyIntervalTree(int[] a, long defaultValue) {
+    AbstractSimpleIntervalTree(int[] a, long defaultValue) {
         this(a.length, defaultValue);
         build(a);
     }
 
-    public AbstractLazyIntervalTree(int len, long defaultValue) {
+    AbstractSimpleIntervalTree(int len, long defaultValue) {
         this.defaultValue = defaultValue;
         n = 1;
         while (n < len) n <<= 1;
         t = new long[2 * n];
-        z = new long[2 * n];
-        lazy = new boolean[2 * n];
         if (defaultValue != 0) {
             Arrays.fill(t, defaultValue);
         }
@@ -65,34 +50,31 @@ public abstract class AbstractLazyIntervalTree {
         if (to < nodeFrom || nodeTo < from) {
             return defaultValue;
         }
-        pushDown(node);
-        int mid = nodeFrom + ((nodeTo - nodeFrom) >> 1);
+        int mid = (nodeFrom + nodeTo) / 2;
         long leftVal = query(from, to, left(node), nodeFrom, mid);
         long rightVal = query(from, to, right(node), mid + 1, nodeTo);
         return merge(leftVal, rightVal);
     }
 
-    public long query(int from, int to) {
+    long query(int from, int to) {
         return query(from, to, 1, 0, n - 1);
     }
 
-    void update(int from, int to, int val, int node, int nodeFrom, int nodeTo) {
-        if (from <= nodeFrom && nodeTo <= to) {
+    void update(int pos, int val, int node, int nodeFrom, int nodeTo) {
+        if (nodeFrom == nodeTo) {
             updateNode(node, val);
-            lazy[node] = true;
             return;
         }
-        if (to < nodeFrom || nodeTo < from) {
-            return;
+        int mid = (nodeFrom + nodeTo) / 2;
+        if (pos <= mid) {
+            update(pos, val, left(node), nodeFrom, mid);
+        } else {
+            update(pos, val, right(node), mid + 1, nodeTo);
         }
-        pushDown(node);
-        int mid = nodeFrom + ((nodeTo - nodeFrom) >> 1);
-        update(from, to, val, left(node), nodeFrom, mid);
-        update(from, to, val, right(node), mid + 1, nodeTo);
         t[node] = merge(t[left(node)], t[right(node)]);
     }
 
-    public void update(int from, int to, int val) {
-        update(from, to, val, 1, 0, n - 1);
+    void update(int pos, int val) {
+        update(pos, val, 1, 0, n - 1);
     }
 }

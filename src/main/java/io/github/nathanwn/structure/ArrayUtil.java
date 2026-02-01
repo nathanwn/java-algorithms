@@ -1,4 +1,4 @@
-package io.github.nathanwn.structures;
+package io.github.nathanwn.structure;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -14,6 +14,15 @@ public class ArrayUtil {
             }
         }
         return j;
+    }
+
+    public static void reverse(int[] a) {
+        for (int i = 0; i < a.length / 2; i++) {
+            int j = a.length - i - 1;
+            int tmp = a[i];
+            a[i] = a[j];
+            a[j] = tmp;
+        }
     }
 
     public static void sort(int[] a, Random random) {
@@ -45,5 +54,13 @@ public class ArrayUtil {
             }
         }
         throw new RuntimeException();
+    }
+
+    public static int[] iota(int n) {
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = i;
+        }
+        return a;
     }
 }

@@ -1,4 +1,4 @@
-package io.github.nathanwn.structures;
+package io.github.nathanwn.structure;
 
 public class FenwickTree {
     int n;
